@@ -41,7 +41,11 @@ def load_listing_results(html_path) -> list[tuple]:
     # ==============================
     # YOUR CODE STARTS HERE
     # ==============================
-    pass
+    filehandle = open(html_path)
+    soup = BeautifulSoup(filehandle, 'html.parser')
+    print(soup.prettify())
+
+
     # ==============================
     # YOUR CODE ENDS HERE
     # ==============================
