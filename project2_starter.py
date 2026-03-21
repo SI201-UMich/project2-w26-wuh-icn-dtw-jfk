@@ -43,7 +43,12 @@ def load_listing_results(html_path) -> list[tuple]:
     # ==============================
     filehandle = open(html_path)
     soup = BeautifulSoup(filehandle, 'html.parser')
-    print(soup.prettify())
+    title_list = soup.find_all('title')
+    collect_info = []
+    for title in title_list:
+        info = title.text
+        collect_info.append(info)
+    print(collect_info)
 
 
     # ==============================
@@ -118,7 +123,7 @@ def output_csv(data, filename) -> None:
     # ==============================
     # YOUR CODE STARTS HERE
     # ==============================
-    
+    pass
     # ==============================
     # YOUR CODE ENDS HERE
     # ==============================
@@ -141,7 +146,7 @@ def avg_location_rating_by_room_type(data) -> dict:
     # ==============================
     # YOUR CODE STARTS HERE
     # ==============================
-    
+    pass
     # ==============================
     # YOUR CODE ENDS HERE
     # ==============================
@@ -162,7 +167,7 @@ def validate_policy_numbers(data) -> list[str]:
     # ==============================
     # YOUR CODE STARTS HERE
     # ==============================
-    
+    pass
     # ==============================
     # YOUR CODE ENDS HERE
     # ==============================
