@@ -43,13 +43,18 @@ def load_listing_results(html_path) -> list[tuple]:
     # ==============================
     filehandle = open(html_path)
     soup = BeautifulSoup(filehandle, 'html.parser')
-    title_list = soup.find_all('title')
+    title_list = soup.find_all('a')
     collect_info = []
     for title in title_list:
-        info = title.text
-        collect_info.append(info)
-    print(collect_info)
+        href = title.get('href')
+        if href and '/rooms/' in href:
+            listing_id = href.split('/rooms/')[1].split('?')[0]
+            listing_title = title.get_text()
+            collect_info.append((listing_title, listing_id))
 
+    print(collect_info)
+    return collect_info
+    
 
     # ==============================
     # YOUR CODE ENDS HERE
@@ -232,6 +237,7 @@ class TestCases(unittest.TestCase):
         # TODO: Check that the first data row matches ["Guesthouse in San Francisco", "49591060", "STR-0000253", "Superhost", "Ingrid", "Entire Room", "5.0"].
 
         os.remove(out_path)
+        pass
 
     def test_avg_location_rating_by_room_type(self):
         # TODO: Call avg_location_rating_by_room_type() and save the output.
