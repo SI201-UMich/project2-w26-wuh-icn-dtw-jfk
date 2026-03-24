@@ -41,19 +41,52 @@ def load_listing_results(html_path) -> list[tuple]:
     # ==============================
     # YOUR CODE STARTS HERE
     # ==============================
+
     filehandle = open(html_path)
     soup = BeautifulSoup(filehandle, 'html.parser')
-    title_list = soup.find_all('a')
-    collect_info = []
-    for title in title_list:
-        href = title.get('href')
-        if href and '/rooms/' in href:
-            listing_id = href.split('/rooms/')[1].split('?')[0]
-            listing_title = title.get_text()
-            collect_info.append((listing_title, listing_id))
 
-    print(collect_info)
-    return collect_info
+    collect_info = []
+    title_list2 = soup.find_all('div', class_='t1jojoys')
+    collect_info2 = []
+    idregexp = 'id="title_(\d+)"'
+    for title in title_list2:
+        info = title.text
+        regtitle = str(title)
+        try:
+            id_info = re.findall(idregexp, regtitle)
+        except:
+            print("whoops")
+            id_info = 00000
+        print(title)
+        collect_info2.append(info)
+        collect_info.append(id_info)
+    
+    return_list = []
+
+    for x in range(10):
+        return_list.append((collect_info2[x], collect_info[x]))
+    
+    print(return_list)
+    return return_list
+    
+    # filehandle = open(html_path)
+    # soup = BeautifulSoup(filehandle, 'html.parser')
+    # title_list = soup.find_all('a')
+    # collect_info = []
+    # for title in title_list:
+    #     href = title.get('href')
+    #     if href and '/rooms/' in href:
+    #         listing_id = href.split('/rooms/')[1].split('?')[0]
+    #         listing_title = title.get_text()
+    #         collect_info.append((listing_title, listing_id))
+    
+    # title_list2 = soup.find_all('div', class_='t1jojoys')
+    # collect_info2 = []
+    # for title in title_list2:
+    #     info = title.text
+    #     collect_info2.append(info)
+    # print(collect_info2)
+    # return collect_info2
     
 
     # ==============================
