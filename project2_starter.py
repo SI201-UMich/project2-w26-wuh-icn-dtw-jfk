@@ -53,7 +53,8 @@ def load_listing_results(html_path) -> list[tuple]:
         info = title.text
         regtitle = str(title)
         try:
-            id_info = re.findall(idregexp, regtitle)
+            #id_info = re.findall(idregexp, regtitle)
+            id_info = re.findall(idregexp, regtitle)[0] #removed [] from tuple list
         except:
             print("whoops")
             id_info = 00000
@@ -63,7 +64,8 @@ def load_listing_results(html_path) -> list[tuple]:
     
     return_list = []
 
-    for x in range(10):
+    # for x in range(10):
+    for x in range(len(collect_info)): #change to length of collect_info instead of 10
         return_list.append((collect_info2[x], collect_info[x]))
     
     print(return_list)
