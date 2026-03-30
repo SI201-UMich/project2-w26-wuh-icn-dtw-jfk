@@ -119,7 +119,75 @@ def get_listing_details(listing_id) -> dict:
     # ==============================
     # YOUR CODE STARTS HERE
     # ==============================
-    pass
+    base_path = os.path.dirname(os.path.abspath(__file__))
+    filename = os.path.join(base_path, "html_files", f"listing_{listing_id}.html")
+    with open(filename, encoding="utf-8-sig") as f:
+        html = f.read()
+        soup = BeautifulSoup(html, 'html.parser')
+
+    policy_number = ""
+    host_type = "regular"
+    host_name = ""
+    room_type = ""
+    location_rating = 0.0
+    
+    # Host Name & Room Type
+    for h2 in soup.find_all('h2'):
+        text = h2.get_text(" ", strip=True)
+
+        match = re.search(r"hosted by\s+(.+)", text, re.IGNORECASE)
+        if match:
+            host_name = match.group(1).strip()
+
+            # Room Type
+            if "private" in text.lower():
+                room_type = "Private Room"
+            elif "shared" in text.lower():
+                room_type = "Shared Room"
+            else:            
+                room_type = "Entire Room"
+
+            break
+
+        # Host Type
+        if "superhost" in text.lower():
+            host_type = "Superhost"
+
+        # Policy Number
+        for li in soup.find_all('li'):
+            text = li.get_text(" ", strip=True).lower()
+            if "policy" in text:
+                raw = li.get_text(" ", strip=True)
+                raw = text.split(":")[-1].strip()
+                raw = raw.split("Response")[0].strip()
+
+                if "pending" in raw.lower():
+                    policy_number = "Pending"
+                elif "exempt" in raw.lower():
+                    policy_number = "Exempt"
+                else:
+                    policy_number = raw
+
+                break
+        
+        # Location Rating
+        match = re.search(r'([0-9.]+) out of 5', html)
+        if match:
+            location_rating = float(match.group(1))
+        else:
+            location_rating = 0.0
+    
+
+    return {
+        listing_id: {
+            "policy_number": policy_number,
+            "host_type": host_type,
+            "host_name": host_name,
+            "room_type": room_type,
+            "location_rating": location_rating
+        }
+    }
+
     # ==============================
     # YOUR CODE ENDS HERE
     # ==============================
