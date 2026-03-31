@@ -248,6 +248,21 @@ def avg_location_rating_by_room_type(data) -> dict:
     # ==============================
     # YOUR CODE STARTS HERE
     # ==============================
+    outdict = {"Private room": [0.0, 0], "Shared room": [0.0, 0], "Entire room": [0.0, 0]}
+    for each in data:
+        if each[6] == 0.0:
+            continue
+        else:
+            lst = outdict[each[5]]
+            lst[0] += each[6]
+            lst[1] += 1
+    returnning = {}
+    for room_type, (total, count) in outdict.items():
+        if count > 0:
+            returnning[room_type] = total / count
+        else:
+            returnning[room_type] = 0.0
+    return returnning
 
     pass
     # ==============================
@@ -270,7 +285,22 @@ def validate_policy_numbers(data) -> list[str]:
     # ==============================
     # YOUR CODE STARTS HERE
     # ==============================
-    pass
+    invalid_list = []
+
+    valid_pattern1 = r"20\d{2}-00\d{4}STR"
+    valid_pattern2 = r"STR-000\d{4}"
+
+    for row in data:
+        listing_id = row[1]
+        policy_number = row[2]
+
+        if policy_number in ["Pending", "Exempt"]:
+            continue
+
+        if not (re.match(valid_pattern1, policy_number) or re.match(valid_pattern2, policy_number)):
+            invalid_list.append(listing_id)
+    
+    return invalid_list
     # ==============================
     # YOUR CODE ENDS HERE
     # ==============================
@@ -345,17 +375,17 @@ class TestCases(unittest.TestCase):
     def test_validate_policy_numbers(self):
         # TODO: Call validate_policy_numbers() on detailed_data and save the result into a variable invalid_listings.
         # TODO: Check that the list contains exactly "16204265" for this dataset.
-        pass
+        invalid_listings = validate_policy_numbers(self.detailed_data)
+        self.assertEqual(invalid_listings, ["16204265"])
 
 
 def main():
     detailed_data = create_listing_database(os.path.join("html_files", "search_results.html"))
     output_csv(detailed_data, "airbnb_dataset.csv")
 
-
 # if __name__ == "__main__":
 #     main()
 #     unittest.main(verbosity=2)
 
-if __name__ == "__main__":
-    print(get_listing_details("467507"))
+data = create_listing_database("search_results.html")
+print(validate_policy_numbers(data))
