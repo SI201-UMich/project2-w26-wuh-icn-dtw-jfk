@@ -208,6 +208,7 @@ def create_listing_database(html_path) -> list[tuple]:
     # ==============================
     # YOUR CODE STARTS HERE
     # ==============================
+
     pass
     # ==============================
     # YOUR CODE ENDS HERE
@@ -254,7 +255,22 @@ def avg_location_rating_by_room_type(data) -> dict:
     # ==============================
     # YOUR CODE STARTS HERE
     # ==============================
-    pass
+    outdict = {"Private room": [0.0, 0], "Shared room": [0.0, 0], "Entire room": [0.0, 0]}
+    for each in data:
+        if each[6] == 0.0:
+            continue
+        else:
+            lst = outdict[each[5]]
+            lst[0] += each[6]
+            lst[1] += 1
+    returnning = {}
+    for room_type, (total, count) in outdict.items():
+        if count > 0:
+            returnning[room_type] = total / count
+        else:
+            returnning[room_type] = 0.0
+    return returnning
+
     # ==============================
     # YOUR CODE ENDS HERE
     # ==============================

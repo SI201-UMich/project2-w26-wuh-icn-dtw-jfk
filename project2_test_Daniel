@@ -150,21 +150,19 @@ def get_listing_details(listing_id) -> dict:
             host_type = "Superhost"
 
         # Policy Number
-        for li in soup.find_all('li'):
-            text = li.get_text(" ", strip=True).lower()
-            if "policy" in text:
-                raw = li.get_text(" ", strip=True)
-                raw = text.split(":")[-1].strip()
-                raw = raw.split("Response")[0].strip()
+        policy_match = re.search(r'Policy number:\s*<span[^>]*>([^<]+)</span>', html, re.I)
 
-                if "pending" in raw.lower():
-                    policy_number = "Pending"
-                elif "exempt" in raw.lower():
-                    policy_number = "Exempt"
-                else:
-                    policy_number = raw
+        if policy_match:
+            raw = policy_match.group(1).strip()
 
-                break
+            if "pending" in raw.lower():
+                policy_number = "Pending"
+            elif "exempt" in raw.lower():
+                policy_number = "Exempt"
+            else:
+                policy_number = raw
+
+            break
         
         # Location Rating
         match = re.search(r'([0-9.]+) out of 5', html)
@@ -250,6 +248,7 @@ def avg_location_rating_by_room_type(data) -> dict:
     # ==============================
     # YOUR CODE STARTS HERE
     # ==============================
+
     pass
     # ==============================
     # YOUR CODE ENDS HERE
@@ -359,4 +358,4 @@ def main():
 #     unittest.main(verbosity=2)
 
 if __name__ == "__main__":
-    print(get_listing_details("1944564"))
+    print(get_listing_details("467507"))
