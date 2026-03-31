@@ -244,7 +244,18 @@ def output_csv(data, filename) -> None:
     # ==============================
     # YOUR CODE STARTS HERE
     # ==============================
-    pass
+    f = open(f"{filename}.txt", "x")
+    locationlist = []  
+    with open(f"{filename}.txt", "a") as f:
+        def myFunc(e):
+            return e[5]
+        
+        for row in data:
+            locationlist.append(row)
+            locationlist.sort(key=myFunc)
+        
+        f.write()
+    f.close()
     # ==============================
     # YOUR CODE ENDS HERE
     # ==============================
