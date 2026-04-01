@@ -244,17 +244,18 @@ def output_csv(data, filename) -> None:
     # ==============================
     # YOUR CODE STARTS HERE
     # ==============================
-    f = open(f"{filename}.txt", "x")
+    f = open(f"{filename}", "x")
     locationlist = []  
-    with open(f"{filename}.txt", "a") as f:
+    with open(f"{filename}", "a") as f:
         def myFunc(e):
             return e[5]
         
         for row in data:
             locationlist.append(row)
             locationlist.sort(key=myFunc)
-        
-        f.write()
+
+        for x in range(len(data)):
+            f.write(f"{locationlist[x]}\n")
     f.close()
     # ==============================
     # YOUR CODE ENDS HERE
@@ -393,8 +394,10 @@ class TestCases(unittest.TestCase):
         # TODO: Call output_csv() to write the detailed_data to a CSV file.
         # TODO: Read the CSV back in and store rows in a list.
         # TODO: Check that the first data row matches ["Guesthouse in San Francisco", "49591060", "STR-0000253", "Superhost", "Ingrid", "Entire Room", "5.0"].
-
         os.remove(out_path)
+        result = output_csv(out_path)
+    
+
         pass
 
     def test_avg_location_rating_by_room_type(self):
