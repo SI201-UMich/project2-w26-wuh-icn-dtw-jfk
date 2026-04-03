@@ -128,24 +128,26 @@ def get_listing_details(listing_id) -> dict:
     policy_number = ""
     host_type = "regular"
     host_name = ""
-    room_type = ""
+    room_type = "Entire Room"
     location_rating = 0.0
     
     # Host Name & Room Type
     for h2 in soup.find_all('h2'):
         text = h2.get_text(" ", strip=True)
 
-        match = re.search(r"hosted by\s+(.+)", text, re.IGNORECASE)
-        if match:
-            host_name = match.group(1).strip()
         # Host Type
         if "superhost" in text.lower():
             host_type = "Superhost"
 
+        match = re.search(r"hosted by\s+(.+)", text, re.IGNORECASE)
+        if match:
+            host_name = match.group(1).strip()
+
             # Room Type
-            if "private" in text.lower():
+            lower_text = text.lower()
+            if "private" in lower_text:
                 room_type = "Private Room"
-            elif "shared" in text.lower():
+            elif "shared" in lower_text:
                 room_type = "Shared Room"
             else:            
                 room_type = "Entire Room"
@@ -172,9 +174,7 @@ def get_listing_details(listing_id) -> dict:
         # Location Rating
     match = re.search(r'([0-9.]+) out of 5', html)
     if match:
-        location_rating = float(match.group(1))
-    else:
-        location_rating = 0.0    
+        location_rating = float(match.group(1)) 
 
     return {
         listing_id: {
@@ -277,7 +277,7 @@ def avg_location_rating_by_room_type(data) -> dict:
     # ==============================
     # YOUR CODE STARTS HERE
     # ==============================
-    outdict = {"Private room": [0.0, 0], "Shared room": [0.0, 0], "Entire room": [0.0, 0]}
+    outdict = {"Private Room": [0.0, 0], "Shared Room": [0.0, 0], "Entire Room": [0.0, 0]}
     for each in data:
         if each[6] == 0.0:
             continue
