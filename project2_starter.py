@@ -138,6 +138,9 @@ def get_listing_details(listing_id) -> dict:
         match = re.search(r"hosted by\s+(.+)", text, re.IGNORECASE)
         if match:
             host_name = match.group(1).strip()
+        # Host Type
+        if "superhost" in text.lower():
+            host_type = "Superhost"
 
             # Room Type
             if "private" in text.lower():
@@ -149,34 +152,29 @@ def get_listing_details(listing_id) -> dict:
 
             break
 
-        # Host Type
-        if "superhost" in text.lower():
-            host_type = "Superhost"
+    # Policy Number
+    for li in soup.find_all('li'):
+        text = li.get_text(" ", strip=True).lower()
+        if "policy" in text:
+            raw = li.get_text(" ", strip=True)
+            raw = text.split(":")[-1].strip()
+            raw = raw.split("Response")[0].strip()
 
-        # Policy Number
-        for li in soup.find_all('li'):
-            text = li.get_text(" ", strip=True).lower()
-            if "policy" in text:
-                raw = li.get_text(" ", strip=True)
-                raw = text.split(":")[-1].strip()
-                raw = raw.split("Response")[0].strip()
-
-                if "pending" in raw.lower():
+            if "pending" in raw.lower():
                     policy_number = "Pending"
-                elif "exempt" in raw.lower():
-                    policy_number = "Exempt"
-                else:
-                    policy_number = raw
+            elif "exempt" in raw.lower():
+                policy_number = "Exempt"
+            else:
+                policy_number = raw
 
-                break
+            break
         
         # Location Rating
-        match = re.search(r'([0-9.]+) out of 5', html)
-        if match:
-            location_rating = float(match.group(1))
-        else:
-            location_rating = 0.0
-    
+    match = re.search(r'([0-9.]+) out of 5', html)
+    if match:
+        location_rating = float(match.group(1))
+    else:
+        location_rating = 0.0    
 
     return {
         listing_id: {
