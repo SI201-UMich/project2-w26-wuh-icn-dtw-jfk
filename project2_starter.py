@@ -223,15 +223,20 @@ def output_csv(data, filename) -> None:
     # ==============================
     # YOUR CODE STARTS HERE
     # ==============================
-    # f = open(f"{filename}", "x")
+    # base_dir = os.path.abspath(os.path.dirname(__file__))
+    # file_path = os.path.join(base_dir, filename)    
+    # f = open(f"{file_path}", "x")
     # locationlist = []  
-    # with open(f"{filename}", "a") as f:
-    #     def myFunc(e):
-    #         return e[5]
+    # with open(f"{file_path}", "a") as f:
+    #     # def myFunc(e):
+    #     #     return e[5]
         
-    #     for row in data:
+    #     sorted_data = sorted(data, key=lambda x: x[6], reverse = True)
+
+    #     for row in sorted_data:
     #         locationlist.append(row)
-    #         locationlist.sort(key=myFunc)
+            
+            
 
     #     for x in range(len(data)):
     #         f.write(f"{locationlist[x]}\n")
