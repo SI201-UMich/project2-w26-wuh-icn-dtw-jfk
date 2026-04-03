@@ -42,6 +42,8 @@ def load_listing_results(html_path) -> list[tuple]:
     # YOUR CODE STARTS HERE
     # ==============================
 
+
+    # print(f"html_path is: {html_path}")
     filehandle = open(html_path)
     soup = BeautifulSoup(filehandle, 'html.parser')
 
@@ -420,8 +422,9 @@ class TestCases(unittest.TestCase):
 
 
 def main():
-    detailed_data = create_listing_database(os.path.join("html_files", "search_results.html"))
-    output_csv(detailed_data, "airbnb_dataset.csv")
+    # detailed_data = create_listing_database(os.path.join("html_files", "search_results.html"))
+    # output_csv(detailed_data, "airbnb_dataset.csv")
+    pass
 
 
 if __name__ == "__main__":
