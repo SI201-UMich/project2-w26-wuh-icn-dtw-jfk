@@ -377,7 +377,13 @@ class TestCases(unittest.TestCase):
         # 1) Check that listing 467507 has the correct policy number "STR-0005349".
         # 2) Check that listing 1944564 has the correct host type "Superhost" and room type "Entire Room".
         # 3) Check that listing 1944564 has the correct location rating 4.9.
-        pass
+        result={}
+        for stuff in html_list:
+            result[stuff]=get_listing_details(stuff)[stuff]
+        self.assertEqual(result["467507"]["policy_number"],"STR-0005349")
+        self.assertEqual(result["1944564"]["host_type"],"Superhost")
+        self.assertEqual(result["1944564"]["room_type"],"Entire Room")
+        self.assertAlmostEqual(result["1944564"]["location_rating"],4.9)
 
     def test_create_listing_database(self):
         # TODO: Check that each tuple in detailed_data has exactly 7 elements:
@@ -410,7 +416,7 @@ class TestCases(unittest.TestCase):
         avg_ratings = avg_location_rating_by_room_type(self.detailed_data)
 
         rating = avg_ratings.get("Private Room")
-        self.assertEqual(rating, 4.9)
+        self.assertAlmostEqual(rating, 4.9)
 
     def test_validate_policy_numbers(self):
         # TODO: Call validate_policy_numbers() on detailed_data and save the result into a variable invalid_listings.
