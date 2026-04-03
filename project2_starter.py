@@ -1,8 +1,8 @@
 # SI 201 HW4 (Library Checkout System)
-# Your name:
+# Your name: Yunchang Hur, Alexei Sanoff, Haoxi Duan
 # Your student id:
-# Your email:
-# Who or what you worked with on this homework (including generative AI like ChatGPT):
+# Your email: yhur@umich.edu, alexeis@umich.edu, duanhaox@umich.edu
+# Who or what you worked with on this homework (including generative AI like ChatGPT): Alexei's friend Willman assisted Alexei in debugging, and Alexei went to office hours
 # If you worked with generative AI also add a statement for how you used it.
 # e.g.:
 # Asked ChatGPT for hints on debugging and for suggestions on overall code structure
