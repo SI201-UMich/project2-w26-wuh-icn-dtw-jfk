@@ -58,7 +58,7 @@ def load_listing_results(html_path) -> list[tuple]:
         except:
             print("whoops")
             id_info = 00000
-        print(title)
+        # print(title)
         collect_info2.append(info)
         collect_info.append(id_info)
     
@@ -68,7 +68,7 @@ def load_listing_results(html_path) -> list[tuple]:
     for x in range(len(collect_info)): #change to length of collect_info instead of 10
         return_list.append((collect_info2[x], collect_info[x]))
     
-    print(return_list)
+    # print(return_list)
     return return_list
     
     # filehandle = open(html_path)
@@ -392,8 +392,14 @@ class TestCases(unittest.TestCase):
         # TODO: Call output_csv() to write the detailed_data to a CSV file.
         # TODO: Read the CSV back in and store rows in a list.
         # TODO: Check that the first data row matches ["Guesthouse in San Francisco", "49591060", "STR-0000253", "Superhost", "Ingrid", "Entire Room", "5.0"].
-        os.remove(out_path)
+        output_csv(self.detailed_data, "test.csv")
+        with open("test.csv", 'w') as f:
+            firstline = f.readline()
+            self.assertEqual(firstline, '["Guesthouse in San Francisco", "49591060", "STR-0000253", "Superhost", "Ingrid", "Entire Room", "5.0"]')
+            print(type(firstline))
+        print("tag")
         result = output_csv(out_path)
+        os.remove(out_path)
     
 
         pass
